@@ -1,0 +1,173 @@
+'use client';
+
+import React from "react";
+import { Card } from "@/components/ui/card";
+import { Users, DollarSign, ShoppingCart, Warehouse } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { Check, X } from "lucide-react";
+
+interface Stat {
+  title: string;
+  value: number;
+  icon: JSX.Element;
+}
+
+const stats: Stat[] = [
+  { title: "Total Users", value: 500, icon: <Users size={24} /> },
+  { title: "Total Revenue", value: 30, icon: <DollarSign size={24} /> },
+  { title: "Total Order", value: 2400, icon: <ShoppingCart size={24} /> },
+  { title: "Active Sellers", value: 3247, icon: <Warehouse size={24} /> },
+];
+
+const data = [
+  { name: "Mon", value: 50 },
+  { name: "Tue", value: 90 },
+  { name: "Wed", value: 60 },
+  { name: "Thu", value: 70 },
+  { name: "Fri", value: 80 },
+  { name: "Sat", value: 40 },
+  { name: "Sun", value: 100 },
+];
+
+const registrations = [
+  { id: "ID02012", name: "John Doe", store: "FreshMart", email: "FreshMart@gmail.com" },
+  { id: "ID02712", name: "Jane Smith", store: "TechWorld", email: "TechWorld@gmail.com" },
+  { id: "ID02512", name: "Alice Cooper", store: "Wanderlust Bazaar", email: "wanderlustbazaar@gmail.com" },
+  { id: "ID01212", name: "Olivia Harrison", store: "Giggle & Goods", email: "giggle&goods@gmail.com" },
+];
+const orders: Order[] = [
+  { id: "ID02012", customer: "John Doe", products: "Apples, Bananas", qty: 5, orderDate: "01/17/2025", status: "Delivered", total: "$50.00", paymentStatus: "Paid" },
+  { id: "ID02712", customer: "Jane Smith", products: "Milk, Bread", qty: 7, orderDate: "01/16/2025", status: "Pending", total: "$50.00", paymentStatus: "Unpaid" },
+  { id: "ID02512", customer: "Alice Cooper", products: "Eggs, Cheese", qty: 8, orderDate: "01/15/2025", status: "Canceled", total: "$50.00", paymentStatus: "-" },
+  { id: "ID01212", customer: "Olivia Harrison", products: "Apples, Bananas", qty: 9, orderDate: "01/14/2025", status: "Delivered", total: "$50.00", paymentStatus: "Paid" },
+  { id: "ID02212", customer: "Amelia Morgan", products: "Milk, Bread", qty: 5, orderDate: "01/13/2025", status: "Delivered", total: "$50.00", paymentStatus: "Paid" },
+];
+
+const StatsCards: React.FC = () => {
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold text-black">Welcome Back Jay</h1>
+      <p className="text-gray-600">Lorem ipsum dolor sit amet welcome back Jay</p>
+      <div className="flex gap-6 p-4 bg-transparent mt-4">
+        {stats.map((stat, index) => (
+          <Card key={index} className="flex-1 flex items-center p-4 bg-teal-600 text-white rounded-[2vw] shadow-lg">
+            <div className="flex items-center space-x-4 w-full">
+              <div className="p-2 bg-white bg-opacity-20 rounded-[2vw]">{stat.icon}</div>
+              <div>
+                <p className="text-sm font-semibold">{stat.title}</p>
+                <p className="text-xl font-bold">{stat.value}</p>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+      
+      <div className="flex mt-6 gap-6">
+        <div className="w-[276px] h-[361px] bg-white shadow-lg rounded-lg p-4">
+          <h2 className="text-lg font-bold text-center">New Registrations</h2>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={data}>
+              <XAxis dataKey="name" />
+              <YAxis tickFormatter={(value) => `$${value}`} />
+              <Tooltip formatter={(value) => [`$${value}`, "Revenue"]} />
+              <Bar dataKey="value" fill="#7E57C2" barSize={30} />
+            </BarChart>
+          </ResponsiveContainer>
+          <button className="w-full mt-4 p-2 bg-purple-200 text-purple-700 rounded-lg font-semibold">Details</button>
+        </div>
+
+        <div className="w-[859px] h-[361px] bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-lg font-bold">New Registrations</h2>
+          <table className="w-full mt-4">
+            <thead>
+              <tr className="text-left border-b">
+                <th className="pb-2">Id</th>
+                <th className="pb-2">Seller Name</th>
+                <th className="pb-2">Store Name</th>
+                <th className="pb-2">Email</th>
+                <th className="pb-2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {registrations.map((reg) => (
+                <tr key={reg.id} className="border-b">
+                  <td className="py-2">{reg.id}</td>
+                  <td className="py-2">{reg.name}</td>
+                  <td className="py-2">{reg.store}</td>
+                  <td className="py-2">{reg.email}</td>
+                  <td className="py-2 flex gap-2"><Check className="text-green-500" /><X className="text-red-500" /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="w-[72rem] h-[34rem] p-[1.5rem] rounded-[1vw] shadow-lg bg-white">
+      <h1 className="text-[1.25rem] font-bold mb-[1rem]">Order Management</h1>
+      <div className="flex items-center gap-[1rem] mb-[1rem]">
+        <button className="bg-blue-500 text-white px-[1rem] py-[0.5rem] rounded">Order</button>
+        <button className="bg-gray-500 text-white px-[1rem] py-[0.5rem] rounded">Booking</button>
+        <input
+          type="text"
+          placeholder="Search"
+          className="border p-[0.5rem] rounded w-full"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div className="flex items-center gap-[0.75rem] w-[11.875rem] h-[2.5rem]">
+          <button className="border px-[0.75rem] py-[0.5rem] rounded flex items-center gap-[0.5rem]">Filter ▾</button>
+          <button className="border px-[0.75rem] py-[0.5rem] rounded flex items-center gap-[0.5rem]">Export ⬇</button>
+        </div>
+      </div>
+      <table className="w-full border-collapse border text-left">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="p-[0.5rem] border">Order Id</th>
+            <th className="p-[0.5rem] border">Customer</th>
+            <th className="p-[0.5rem] border">Product(s)</th>
+            <th className="p-[0.5rem] border">Qty</th>
+            <th className="p-[0.5rem] border">Order Date</th>
+            <th className="p-[0.5rem] border">Status</th>
+            <th className="p-[0.5rem] border">Total</th>
+            <th className="p-[0.5rem] border">Payment Status</th>
+            <th className="p-[0.5rem] border">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredOrders.map((order) => (
+            <tr key={order.id} className="hover:bg-gray-50">
+              <td className="p-[0.5rem] border">{order.id}</td>
+              <td className="p-[0.5rem] border">{order.customer}</td>
+              <td className="p-[0.5rem] border">{order.products}</td>
+              <td className="p-[0.5rem] border">{order.qty}</td>
+              <td className="p-[0.5rem] border">{order.orderDate}</td>
+              <td className={`p-[0.5rem] border ${order.status === "Delivered" ? "text-green-500" : order.status === "Pending" ? "text-yellow-500" : "text-red-500"}`}>{order.status}</td>
+              <td className="p-[0.5rem] border">{order.total}</td>
+              <td className={`p-[0.5rem] border ${order.paymentStatus === "Paid" ? "text-green-500" : order.paymentStatus === "Unpaid" ? "text-red-500" : "text-gray-500"}`}>{order.paymentStatus}</td>
+              <td className="p-[0.5rem] border flex gap-[0.5rem]">
+                <button>👁</button>
+                <button>🗑</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="flex justify-between items-center mt-[1rem]">
+        <span>1 - 10 of 13 Pages</span>
+        <div className="flex items-center gap-[0.5rem]">
+          <span>The page on</span>
+          <select className="border p-[0.25rem] rounded">
+            <option>1</option>
+          </select>
+          <button className="border px-[0.5rem] py-[0.25rem] rounded">❮</button>
+          <button className="border px-[0.5rem] py-[0.25rem] rounded">❯</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+  );
+};
+
+
+export default StatsCards;
