@@ -1,0 +1,96 @@
+'use client';
+
+import React, { useState } from "react";
+
+interface Order {
+  id: string;
+  customer: string;
+  products: string;
+  qty: number;
+  orderDate: string;
+  status: "Delivered" | "Pending" | "Canceled";
+  total: string;
+  paymentStatus: "Paid" | "Unpaid" | "-";
+}
+
+const orders: Order[] = [
+  { id: "ID02012", customer: "John Doe", products: "Apples, Bananas", qty: 5, orderDate: "01/17/2025", status: "Delivered", total: "$50.00", paymentStatus: "Paid" },
+  { id: "ID02712", customer: "Jane Smith", products: "Milk, Bread", qty: 7, orderDate: "01/16/2025", status: "Pending", total: "$50.00", paymentStatus: "Unpaid" },
+  { id: "ID02512", customer: "Alice Cooper", products: "Eggs, Cheese", qty: 8, orderDate: "01/15/2025", status: "Canceled", total: "$50.00", paymentStatus: "-" },
+  { id: "ID01212", customer: "Olivia Harrison", products: "Apples, Bananas", qty: 9, orderDate: "01/14/2025", status: "Delivered", total: "$50.00", paymentStatus: "Paid" },
+  { id: "ID02212", customer: "Amelia Morgan", products: "Milk, Bread", qty: 5, orderDate: "01/13/2025", status: "Delivered", total: "$50.00", paymentStatus: "Paid" },
+];
+
+const OrderManagement: React.FC = () => {
+  const [search, setSearch] = useState("");
+
+  const filteredOrders = orders.filter(order =>
+    order.customer.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div className="w-[72rem] h-[34rem] p-6 rounded-2xl shadow-lg bg-white">
+      <h1 className="text-xl font-bold mb-4">Order Management</h1>
+      <div className="flex items-center gap-4 mb-4">
+        <button className="bg-blue-500 text-white px-4 py-2 rounded">Order</button>
+        <button className="bg-gray-500 text-white px-4 py-2 rounded">Booking</button>
+        <input
+          type="text"
+          placeholder="Search"
+          className="border p-2 rounded w-full"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div className="flex items-center gap-3 w-[190px] h-[40px]">
+          <button className="border px-3 py-2 rounded flex items-center gap-2">Filter ▾</button>
+          <button className="border px-3 py-2 rounded flex items-center gap-2">Export ⬇</button>
+        </div>
+      </div>
+      <table className="w-full border-collapse border text-left">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="p-2 border">Order Id</th>
+            <th className="p-2 border">Customer</th>
+            <th className="p-2 border">Product(s)</th>
+            <th className="p-2 border">Qty</th>
+            <th className="p-2 border">Order Date</th>
+            <th className="p-2 border">Status</th>
+            <th className="p-2 border">Total</th>
+            <th className="p-2 border">Payment Status</th>
+            <th className="p-2 border">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredOrders.map((order) => (
+            <tr key={order.id} className="hover:bg-gray-50">
+              <td className="p-2 border">{order.id}</td>
+              <td className="p-2 border">{order.customer}</td>
+              <td className="p-2 border">{order.products}</td>
+              <td className="p-2 border">{order.qty}</td>
+              <td className="p-2 border">{order.orderDate}</td>
+              <td className={`p-2 border ${order.status === "Delivered" ? "text-green-500" : order.status === "Pending" ? "text-yellow-500" : "text-red-500"}`}>{order.status}</td>
+              <td className="p-2 border">{order.total}</td>
+              <td className={`p-2 border ${order.paymentStatus === "Paid" ? "text-green-500" : order.paymentStatus === "Unpaid" ? "text-red-500" : "text-gray-500"}`}>{order.paymentStatus}</td>
+              <td className="p-2 border flex gap-2">
+                <button>👁</button>
+                <button>🗑</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="flex justify-between items-center mt-4">
+        <span>1 - 10 of 13 Pages</span>
+        <div className="flex items-center gap-2">
+          <span>The page on</span>
+          <select className="border p-1 rounded">
+            <option>1</option>
+          </select>
+          <button className="border px-2 py-1 rounded">❮</button>
+          <button className="border px-2 py-1 rounded">❯</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default OrderManagement;
