@@ -1,0 +1,105 @@
+'use client';
+
+import React from "react";
+import { Card } from "@/components/ui/card";
+import { Users, DollarSign, ShoppingCart, Warehouse } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { Check, X } from "lucide-react";
+
+interface Stat {
+  title: string;
+  value: number;
+  icon: JSX.Element;
+}
+
+const stats: Stat[] = [
+  { title: "Total Users", value: 500, icon: <Users size={24} /> },
+  { title: "Total Revenue", value: 30, icon: <DollarSign size={24} /> },
+  { title: "Total Order", value: 2400, icon: <ShoppingCart size={24} /> },
+  { title: "Active Sellers", value: 3247, icon: <Warehouse size={24} /> },
+];
+
+const data = [
+  { name: "Mon", value: 50 },
+  { name: "Tue", value: 90 },
+  { name: "Wed", value: 60 },
+  { name: "Thu", value: 70 },
+  { name: "Fri", value: 80 },
+  { name: "Sat", value: 40 },
+  { name: "Sun", value: 100 },
+];
+
+const registrations = [
+  { id: "ID02012", name: "John Doe", store: "FreshMart", email: "FreshMart@gmail.com" },
+  { id: "ID02712", name: "Jane Smith", store: "TechWorld", email: "TechWorld@gmail.com" },
+  { id: "ID02512", name: "Alice Cooper", store: "Wanderlust Bazaar", email: "wanderlustbazaar@gmail.com" },
+  { id: "ID01212", name: "Olivia Harrison", store: "Giggle & Goods", email: "giggle&goods@gmail.com" },
+];
+
+const StatsCards: React.FC = () => {
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold text-black">Welcome Back Jay</h1>
+      <p className="text-gray-600">Lorem ipsum dolor sit amet welcome back Jay</p>
+      <div className="flex w-[70.5rem] h-[6.625rem] gap-6 p-4 bg-transparent mt-4">
+        {stats.map((stat, index) => (
+          <Card key={index} className="flex-1 flex items-center p-4 bg-teal-600 text-white rounded-[2vw] shadow-lg">
+            <div className="flex items-center space-x-4 w-full">
+              <div className="p-2 bg-white bg-opacity-20 rounded-[2vw]">{stat.icon}</div>
+              <div>
+                <p className="text-sm font-semibold">{stat.title}</p>
+                <p className="text-xl font-bold">{stat.value}</p>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+      
+      <div className="flex mt-6 gap-6">
+        <div className="w-[17.25rem] h-[22.56rem] bg-white shadow-lg rounded-lg p-4">
+          <h2 className="text-lg font-bold text-center">New Registrations</h2>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={data}>
+              <XAxis dataKey="name" />
+              <YAxis tickFormatter={(value) => `$${value}`} />
+              <Tooltip formatter={(value) => [`$${value}`, "Revenue"]} />
+              <Bar dataKey="value" fill="#7E57C2" barSize={30} />
+            </BarChart>
+          </ResponsiveContainer>
+          <button className="w-full mt-4 p-2 bg-purple-200 text-purple-700 rounded-lg font-semibold">Details</button>
+        </div>
+
+        <div className="w-[53.68rem] h-[22.56rem] bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-lg font-bold">New Registrations</h2>
+          <table className="w-full mt-4">
+            <thead>
+              <tr className="text-left border-b">
+                <th className="pb-2">Id</th>
+                <th className="pb-2">Seller Name</th>
+                <th className="pb-2">Store Name</th>
+                <th className="pb-2">Email</th>
+                <th className="pb-2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {registrations.map((reg) => (
+                <tr key={reg.id} className="border-b">
+                  <td className="py-2">{reg.id}</td>
+                  <td className="py-2">{reg.name}</td>
+                  <td className="py-2">{reg.store}</td>
+                  <td className="py-2">{reg.email}</td>
+                  <td className="py-2 flex gap-2">
+                    <button className="bg-red-300 p-2 rounded-lg"><X size={16} /></button>
+                    <button className="bg-green-300 p-2 rounded-lg"><Check size={16} /></button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default StatsCards;
