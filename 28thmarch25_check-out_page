@@ -1,0 +1,84 @@
+"use client";
+import React, { useState } from 'react';
+import { FaPencilAlt } from 'react-icons/fa';
+
+const BookingPage: React.FC = () => {
+    const [bedrooms, setBedrooms] = useState<string>('2');
+    const [bathrooms, setBathrooms] = useState<string>('2');
+    const [service, setService] = useState<string>('Cleaning');
+    const [date, setDate] = useState<string>('2025-04-17');
+    const [time, setTime] = useState<string>('09:00');
+    const [frequency, setFrequency] = useState<string>('Onetime');
+    const [paymentMethod, setPaymentMethod] = useState<string>('Cash on Delivery');
+    const [address, setAddress] = useState<string>('4140 Parker Rd. Allentown, New Mexico 31134');
+    const [name, setName] = useState<string>('Dianne Russell');
+    const [phone, setPhone] = useState<string>('+1 (555) 123-4567');
+    const [isChecked, setIsChecked] = useState<boolean>(false);
+
+    const handlePayNow = (): void => {
+        alert(`Payment Successful!\nBooking Details:\n- Bedrooms: ${bedrooms}\n- Bathrooms: ${bathrooms}\n- Service: ${service}\n- Date: ${date}\n- Time: ${time}\n- Frequency: ${frequency}\n- Payment Method: ${paymentMethod}\n- Address: ${address}`);
+    };
+
+    return (
+        <div className="w-full max-w-5xl mx-auto bg-white border border-gray-300 p-6 rounded-lg shadow-lg">
+            <h1 className="text-center font-bold text-2xl text-black mb-4">Check Out</h1>
+            <div className="flex flex-col md:flex-row gap-6">
+                <div className="w-full md:w-1/2">
+                    <h2 className="font-bold text-xl mb-2">Saved Address</h2>
+                    <div className="border p-4 w-full mt-2 rounded-lg flex items-center gap-2">
+                        <input type="checkbox" checked={isChecked} onChange={() => setIsChecked(!isChecked)} className="w-5 h-5 text-purple-600 cursor-pointer" />
+                        <div className="flex-grow">
+                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="font-bold w-full border-b p-1" placeholder="Enter Name" />
+                            <textarea value={address} onChange={(e) => setAddress(e.target.value)} className="w-full mt-2 border p-1 resize-none" rows={2} />
+                            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full mt-2 border p-1" />
+                        </div>
+                        <FaPencilAlt className="text-green-500 cursor-pointer" />
+                    </div>
+                    <h2 className="font-bold text-xl mt-4">Customize Your Requirements</h2>
+                    <div className="flex gap-2">
+                        <input type="number" min="1" value={bedrooms} onChange={(e) => setBedrooms(e.target.value)} className="border p-2 w-1/2 mt-2 rounded" />
+                        <input type="number" min="1" value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} className="border p-2 w-1/2 mt-2 rounded" />
+                    </div>
+                    <h2 className="font-bold text-xl mt-4">Booking Date & Time</h2>
+                    <div className="flex gap-2">
+                    <input type="text" value={service} onChange={(e) => setService(e.target.value)} className="border p-2 w-full mt-2 rounded" />
+                    <h2 className="font-bold text-xl mt-4">Booking Date & Time</h2>
+                    <div className="flex gap-2">
+                        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="border p-2 w-1/2 mt-2 rounded" />
+                        <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="border p-2 w-1/2 mt-2 rounded" />
+                    </div>
+                    <h2 className="font-bold text-xl mt-4">Select Frequency</h2>
+                    <select value={frequency} onChange={(e) => setFrequency(e.target.value)} className="border p-2 w-full mt-2 rounded">
+                        <option value="Onetime">One-time</option>
+                        <option value="Weekly">Weekly</option>
+                        <option value="2-weekly">2-weekly</option>
+                        <option value="4-weekly">4-weekly</option>
+                    </select>
+                </div>
+                    <div className="bg-gray-100 p-2 mt-2 rounded border border-gray-300">
+                        <h3 className="font-bold text-black">Note</h3>
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority</p>
+               </div>
+                <div className="w-full md:w-1/2 border border-gray-300 p-4 rounded-lg">
+                    <h2 className="font-bold text-xl">Order Summary</h2>
+                    <div className="space-y-2 mt-2">
+                        <div className="flex justify-between"><span>Floor Care Services</span><span>$70.00</span></div>
+                        <div className="flex justify-between"><span>Window Cleaning</span><span>$14.00</span></div>
+                        <div className="flex justify-between"><span>Parking Lot Cleaning</span><span>$14.00</span></div>
+                    </div>
+                    <hr className="my-2" />
+                    <div className="flex justify-between font-semibold"><span>Total:</span><span>$84.00</span></div>
+                    <h2 className="font-bold text-xl mt-4">Payment Method</h2>
+                    <div className="flex flex-col gap-2 mt-2">
+                        <label><input type="radio" name="payment" value="Cash on Delivery" checked={paymentMethod === 'Cash on Delivery'} onChange={(e) => setPaymentMethod(e.target.value)} /> Cash on Delivery</label>
+                        <label><input type="radio" name="payment" value="Paypal" checked={paymentMethod === 'Paypal'} onChange={(e) => setPaymentMethod(e.target.value)} /> Paypal</label>
+                        <label><input type="radio" name="payment" value="Amazon Pay" checked={paymentMethod === 'Amazon Pay'} onChange={(e) => setPaymentMethod(e.target.value)} /> Amazon Pay</label>
+                    </div>
+                    <button onClick={handlePayNow} className="bg-teal-500 text-white w-full py-2 mt-4 rounded hover:bg-teal-600">Pay Now</button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default BookingPage;
