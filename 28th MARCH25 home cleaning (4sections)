@@ -1,0 +1,53 @@
+'use client';
+
+const HomeCleaningCard = () => {
+  return (
+    <>
+      <div className="absolute top-[14.75rem] left-[20.69rem] w-[49.13rem] h-[7.69rem] border-b-[1px] border-gray-300 flex items-center p-4 bg-white shadow-md">
+        <div className="w-[6.25rem] h-[6.25rem] rounded-[0.625rem] border-[1px] border-gray-300 overflow-hidden mr-4 bg-gray-200"></div>
+        <span className="text-[1.25rem] font-bold">Home Cleaning</span>
+      </div>
+      <span className="absolute top-[24.31rem] left-[20.63rem] w-[7.44rem] h-[1.88rem] font-['Inter'] font-bold text-[1.56rem] leading-[100%] tracking-[0%] text-center capitalize">
+        Packages
+      </span>
+      <div className="absolute top-[26.5rem] left-[20.63rem] w-[49.13rem] h-[7.69rem] border-[1px] border-purple-300 rounded-lg flex items-center p-4 bg-white shadow-md">
+        <div className="w-[6.25rem] h-[6.25rem] rounded-[0.625rem] border-[1px] border-gray-300 overflow-hidden mr-4 bg-gray-200"></div>
+        <div className="flex-1">
+          <span className="text-[1.25rem] font-bold">Dry Cleaning</span>
+          <p className="text-gray-500 text-[1rem]">Are you looking for basic details about starting a cleaning service, or do you need a description for an existing.</p>
+          <span className="text-gray-400 text-[0.875rem]">2 Hrs</span>
+        </div>
+        <div className="text-purple-500 font-bold text-[1.25rem]">$10</div>
+        <div className="ml-2 w-[1.5rem] h-[1.5rem] bg-purple-500 rounded flex items-center justify-center">
+          <span className="text-white font-bold">✔</span>
+        </div>
+      </div>
+      <div className="absolute top-[35.19rem] left-[20.63rem] w-[49.13rem] h-[7.69rem] border-[1px] border-purple-300 rounded-lg flex items-center p-4 bg-white shadow-md">
+        <div className="w-[6.25rem] h-[6.25rem] rounded-[0.625rem] border-[1px] border-gray-300 overflow-hidden mr-4 bg-gray-200"></div>
+        <div className="flex-1">
+          <span className="text-[1.25rem] font-bold">Kitchen Cleaning</span>
+          <p className="text-gray-500 text-[1rem]">Are you looking for basic details about starting a cleaning service, or do you need a description for an existing.</p>
+          <span className="text-gray-400 text-[0.875rem]">2 Hrs</span>
+        </div>
+        <div className="text-purple-500 font-bold text-[1.25rem]">$20</div>
+        <div className="ml-2 w-[1.5rem] h-[1.5rem] bg-gray-300 rounded flex items-center justify-center">
+          <span className="text-white font-bold"></span>
+        </div>
+      </div>
+      <div className="absolute top-[44rem] left-[20.63rem] w-[49.13rem] h-[7.69rem] border-[1px] border-purple-300 rounded-lg flex items-center p-4 bg-white shadow-md">
+        <div className="w-[6.25rem] h-[6.25rem] rounded-[0.625rem] border-[1px] border-gray-300 overflow-hidden mr-4 bg-gray-200"></div>
+        <div className="flex-1">
+          <span className="text-[1.25rem] font-bold">Emergency Services</span>
+          <p className="text-gray-500 text-[1rem]">Are you looking for basic details about starting a cleaning service, or do you need a description for an existing.</p>
+          <span className="text-gray-400 text-[0.875rem]">2 Hrs</span>
+        </div>
+        <div className="text-purple-500 font-bold text-[1.25rem]">$15</div>
+        <div className="ml-2 w-[1.5rem] h-[1.5rem] bg-gray-300 rounded flex items-center justify-center">
+          <span className="text-white font-bold"></span>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default HomeCleaningCard;
