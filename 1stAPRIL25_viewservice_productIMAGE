@@ -1,0 +1,112 @@
+"use client";
+
+import { useState } from "react";
+
+const images = [
+  "/images/cleaning1.jpg",
+  "/images/cleaning2.jpg",
+  "/images/cleaning3.jpg",
+  "/images/cleaning4.jpg",
+];
+
+const ImageSlider = () => {
+  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const [startIndex, setStartIndex] = useState(0);
+  const visibleThumbnails = 3;
+
+  const scrollUp = () => {
+    if (startIndex > 0) setStartIndex(startIndex - 1);
+  };
+
+  const scrollDown = () => {
+    if (startIndex < images.length - visibleThumbnails) setStartIndex(startIndex + 1);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowUp") {
+      scrollUp();
+    } else if (e.key === "ArrowDown") {
+      scrollDown();
+    }
+  };
+
+  return (
+    <div>
+      {/* Heading "View Service" */}
+      <div
+        className="absolute font-bold"
+        style={{
+          width: "194px",
+          height: "62px",
+          top: "128px",
+          left: "264px",
+          gap: "8px",
+        }}
+      >
+        <h1 className="text-xl text-center">View Service</h1>
+      </div>
+
+      {/* Image Slider */}
+      <div
+        className="relative flex flex-col bg-white p-[1rem] rounded-[2vw] shadow-lg"
+        style={{
+          position: "absolute",
+          top: "214px",
+          left: "264px",
+          width: "1081px",
+          height: "333px",
+          gap: "14px",
+        }}
+        onKeyDown={handleKeyDown}
+        tabIndex={0} // Makes the container focusable for keyboard events
+      >
+        <h2 className="text-lg font-semibold mb-[0.5rem] text-center">Product Image</h2>
+        <div className="flex gap-[14px] items-center justify-center h-full">
+          {/* Main Image */}
+          <div className="w-[65%] h-[100%] flex items-center justify-center">
+            <img
+              src={selectedImage}
+              alt="Product"
+              className="w-full h-full object-cover rounded-[2vw]"
+            />
+          </div>
+
+          {/* Thumbnail List with Arrows */}
+          <div className="flex flex-col items-center justify-between w-[15%] h-[100%] p-[0.5rem] border border-gray-300 rounded-[1vw]">
+            <button
+              onClick={scrollUp}
+              disabled={startIndex === 0}
+              aria-label="Scroll up"
+              className={`p-[0.5rem] bg-gray-300 rounded-full ${startIndex === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+            >
+              ▲
+            </button>
+            <div className="flex flex-col gap-[14px] items-center overflow-hidden">
+              {images.slice(startIndex, startIndex + visibleThumbnails).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Thumbnail ${index + 1}`}
+                  className={`w-[60px] h-[60px] object-cover rounded-[1vw] cursor-pointer border-2 ${
+                    selectedImage === image ? "border-blue-500" : "border-transparent"
+                  }`}
+                  onClick={() => setSelectedImage(image)}
+                />
+              ))}
+            </div>
+            <button
+              onClick={scrollDown}
+              disabled={startIndex >= images.length - visibleThumbnails}
+              aria-label="Scroll down"
+              className={`p-[0.5rem] bg-gray-300 rounded-full ${startIndex >= images.length - visibleThumbnails ? "opacity-50 cursor-not-allowed" : ""}`}
+            >
+              ▼
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ImageSlider;
