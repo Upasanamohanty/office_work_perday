@@ -1,0 +1,80 @@
+'use client';
+
+import React, { useState, useRef, useEffect } from "react";
+
+const Dropdown = ({ label, options, selected, setSelected }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div ref={dropdownRef} className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="text-sm md:text-base px-2 py-1 border rounded cursor-pointer"
+      >
+        {selected} ▼
+      </button>
+      {isOpen && (
+        <div className="absolute bg-white shadow-md p-2 mt-1 rounded w-[100px]">
+          {options.map((option) => (
+            <div
+              key={option}
+              onClick={() => {
+                setSelected(option);
+                setIsOpen(false);
+              }}
+              className="cursor-pointer hover:bg-gray-200 p-1"
+            >
+              {option}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const SupportSection: React.FC = () => {
+  const [language, setLanguage] = useState("Eng");
+  const [currency, setCurrency] = useState("USD");
+
+  return (
+    <div>
+      {/* Top Bar */}
+      <div className="w-full max-w-[1440px] h-[36px] bg-gray-100 flex items-center justify-between px-4 text-gray-600 text-sm">
+        <div className="flex items-center gap-2">
+          <span className="text-gray-600">📧</span>
+          <span>Support</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <Dropdown label="Lang" options={["Eng", "Fr", "Es"]} selected={language} setSelected={setLanguage} />
+          <Dropdown label="Curr" options={["USD", "EUR", "GBP"]} selected={currency} setSelected={setCurrency} />
+        </div>
+      </div>
+      
+      {/* Header Section */}
+      <div className="w-full bg-purple-900 flex items-center justify-between py-10 px-8 text-white text-2xl font-bold relative">
+        <span className="mr-auto">Asrae</span>
+        <span className="absolute left-1/2 transform -translate-x-1/2 text-lg md:text-xl">Deliver to Dubai 120300</span>
+        <div className="flex items-center gap-4">
+          <span className="text-gray-400 text-3xl">👤</span>
+          <span className="text-white text-2xl">❤️</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SupportSection;
