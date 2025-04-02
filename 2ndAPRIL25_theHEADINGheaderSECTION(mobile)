@@ -1,0 +1,126 @@
+'use client';
+
+import React, { useState, useRef, useEffect, useCallback } from "react";
+
+interface DropdownProps {
+  label: string;
+  options: string[];
+  selected: string;
+  setSelected: (value: string) => void;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ label, options, selected, setSelected }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handleClickOutside]);
+
+  return (
+    <div ref={dropdownRef} className="relative inline-block text-left">
+      <button
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="text-sm md:text-base px-2 py-1 border rounded cursor-pointer flex items-center"
+        aria-label={label}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+      >
+        {selected} <span className="ml-1">▼</span>
+      </button>
+      {isOpen && (
+        <div
+          role="listbox"
+          className="absolute bg-white shadow-md p-2 mt-1 rounded min-w-max transition-opacity duration-200 z-10"
+        >
+          {options.map((option) => (
+            <div
+              key={option}
+              role="option"
+              onClick={() => {
+                setSelected(option);
+                setIsOpen(false);
+              }}
+              className="cursor-pointer hover:bg-gray-200 p-1"
+            >
+              {option}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const SupportSection: React.FC = () => {
+  const [language, setLanguage] = useState("Eng");
+  const [currency, setCurrency] = useState("USD");
+  const [location, setLocation] = useState("Dubai");
+
+  return (
+    <div>
+      {/* Top Bar */}
+      <div className="w-full max-w-[1440px] h-[36px] bg-gray-100 flex items-center justify-between px-4 text-gray-600 text-sm">
+        <div className="flex items-center gap-2">
+          <span className="text-gray-600">📧</span>
+          <span>Support</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <Dropdown label="Language" options={["Eng", "Fr", "Es"]} selected={language} setSelected={setLanguage} />
+          <Dropdown label="Currency" options={["USD", "EUR", "GBP"]} selected={currency} setSelected={setCurrency} />
+          <Dropdown label="Location" options={["Dubai", "United States", "Canada", "France", "Germany"]} selected={location} setSelected={setLocation} />
+        </div>
+      </div>
+      
+      {/* Header Section with Search Bar */}
+      <div className="w-full bg-purple-900 flex flex-col items-center py-6 px-8 text-white text-2xl font-bold relative">
+        <div className="w-full flex items-center justify-between">
+          <span className="mr-auto">Asrae</span>
+          <span className="absolute left-1/2 transform -translate-x-1/2 text-lg md:text-xl">Deliver to {location}</span>
+          <div className="flex items-center gap-4">
+            <span className="text-gray-400 text-3xl">👤</span>
+            <span className="text-white text-2xl">♡ </span>
+            <button className="bg-teal-500 text-white px-3 py-1 rounded flex items-center gap-2">
+              <span> 🛍️ </span>
+              <span>Cart</span>
+            </button>
+          </div>
+        </div>
+        
+        {/* Smaller Search Bar Below Delivery Info */}
+        <div className="w-full max-w-lg bg-white rounded-full flex items-center px-3 py-1.5 text-gray-700 mt-4">
+          <select className="bg-gray-200 text-sm px-2 py-1 rounded-l-md">
+            <option>All categories</option>
+            <option>Electronics</option>
+            <option>Fashion</option>
+          </select>
+          <input type="search" placeholder="Search anything" className="flex-1 px-2 py-1 outline-none text-sm" />
+          <button className="bg-purple-600 text-white px-3 py-1 rounded-r-md text-sm">🔍</button>
+        </div>
+      </div>
+      
+      {/* Additional Section Below */}
+      <div className="w-full h-[47px] bg-purple-600 mt-2 flex items-center justify-center text-white text-sm space-x-6">
+        <span>Electronics</span>
+        <span>Fashion</span>
+        <span>Home & Kitchen</span>
+        <span>Beauty & Personal Care</span>
+        <span>Groceries</span>
+        <span>Sports & Outdoors</span>
+        <span>Toys & Games</span>
+        <span>Automotive</span>
+      </div>
+    </div>
+  );
+};
+
+export default SupportSection;
