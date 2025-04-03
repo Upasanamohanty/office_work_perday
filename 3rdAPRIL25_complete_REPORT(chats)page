@@ -1,0 +1,85 @@
+"use client";
+
+import React from "react";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from "recharts";
+import { FaUsers, FaUndo, FaShoppingCart, FaWarehouse } from "react-icons/fa";
+
+const data = [
+  { month: "FEB", buyer: 60, seller: 30 },
+  { month: "MAR", buyer: 90, seller: 50 },
+  { month: "APR", buyer: 50, seller: 90 },
+  { month: "MAY", buyer: 30, seller: 60 },
+  { month: "JUN", buyer: 90, seller: 50 },
+  { month: "JUL", buyer: 50, seller: 90 }
+];
+
+const pieData = [
+  { name: "Order", value: 10, color: "#4C1D95" },
+  { name: "Booking", value: 4, color: "#16A34A" }
+];
+
+const stats = [
+  { title: "Active Vendors", value: "500", icon: <FaUsers /> },
+  { title: "Refunds Processed", value: "30", icon: <FaUndo /> },
+  { title: "Orders Completed", value: "2400", icon: <FaShoppingCart /> },
+  { title: "Total Sales", value: "3247", icon: <FaWarehouse /> }
+];
+
+const RevenueChart: React.FC = () => {
+  return (
+    <div>
+      {/* Header */}
+      <div className="w-[70.5rem] h-[3.875rem] flex justify-between items-center text-black font-bold text-3xl mb-4">
+        <h1>Report</h1>
+      </div>
+      
+      {/* Statistic Cards */}
+      <div className="flex justify-between mb-4">
+        {stats.map((stat, index) => (
+          <div key={index} className="w-[15rem] h-[5rem] p-4 bg-teal-600 text-white shadow-lg rounded-lg flex items-center">
+            <div className="text-2xl mr-4">{stat.icon}</div>
+            <div>
+              <p className="text-sm">{stat.title}</p>
+              <p className="text-lg font-bold">{stat.value}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex">
+        {/* Line Chart */}
+        <div className="w-[50.3rem] h-[21rem] p-[1rem] bg-white shadow-lg rounded-lg">
+          <h2 className="text-[2vw] font-bold">$102.5M</h2>
+          <p className="text-gray-500">Total Revenue</p>
+          <ResponsiveContainer width="100%" height={250}>
+            <LineChart data={data} margin={{ top: 0.625, right: 1.25, left: 0.625, bottom: 0.625 }}>
+              <XAxis dataKey="month" stroke="#aaa" />
+              <YAxis stroke="#aaa" domain={[10, 100]} />
+              <Tooltip formatter={(value: number) => `€${value}K`} />
+              <Legend />
+              <Line type="monotone" dataKey="buyer" stroke="#4C1D95" strokeWidth={3} name="Buyer (Blue)" />
+              <Line type="monotone" dataKey="seller" stroke="#16A34A" strokeWidth={3} name="Seller (Green)" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        
+        {/* Pie Chart */}
+        <div className="w-[20.9rem] h-[21rem] p-[1rem] bg-white shadow-lg rounded-lg ml-4">
+          <h2 className="text-[2vw] font-bold">Order & Booking</h2>
+          <ResponsiveContainer width="100%" height={250}>
+            <PieChart>
+              <Pie data={pieData} dataKey="value" outerRadius={80} innerRadius={50} label>
+                {pieData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RevenueChart;
