@@ -1,0 +1,96 @@
+'use client';
+import React, { useState } from "react";
+
+const UserProfileForm = () => {
+  const [image, setImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div
+      className="w-[70.5rem] h-[38.5rem] absolute top-[13.75rem] left-[16.5rem] bg-white shadow-md rounded-[0.75rem] p-[1.5rem] gap-[0.875rem] relative"
+    >
+      <div className="flex justify-between items-center mb-[1rem]">
+        <h1 className="text-[2rem] font-bold text-black">Add Seller</h1>
+        <button className="w-[9.0625rem] h-[2.5rem] bg-purple-500 text-white font-semibold rounded-[0.3125rem]">Save</button>
+      </div>
+      <h2 className="text-[1.25rem] font-semibold mb-[0.5rem]">General Information</h2>
+      <div className="flex flex-col items-center mb-[1.5rem]">
+        <div className="relative">
+          <div className="w-[6rem] h-[6rem] bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+            {image ? <img src={image} alt="Profile" className="w-full h-full object-cover" /> : <span className="text-gray-400 text-[2rem]">👤</span>}
+          </div>
+          <label className="absolute bottom-0 right-0 bg-purple-500 p-[0.5rem] rounded-full cursor-pointer">
+            📷
+            <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+          </label>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
+        <div>
+          <label className="block text-[0.875rem] font-medium">Full Name</label>
+          <input
+            type="text"
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+            value="Henryjacob@gmail.com"
+            readOnly
+          />
+        </div>
+        <div>
+          <label className="block text-[0.875rem] font-medium">Store Name</label>
+          <input
+            type="text"
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+            value="Fresh Mart"
+            readOnly
+          />
+        </div>
+        <div>
+          <label className="block text-[0.875rem] font-medium">Email</label>
+          <input
+            type="email"
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+            value="Henryjacob@gmail.com"
+            readOnly
+          />
+        </div>
+        <div>
+          <label className="block text-[0.875rem] font-medium">Mobile</label>
+          <input
+            type="text"
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+            value="+96 1023 0230 20"
+            readOnly
+          />
+        </div>
+        <div className="md:col-span-2">
+          <label className="block text-[0.875rem] font-medium">Address</label>
+          <textarea
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+            rows={2}
+            readOnly
+          >
+            123 Maple Street, Suite 200, Springfield, IL 62704, United States
+          </textarea>
+        </div>
+        <div className="md:col-span-2">
+          <label className="block text-[0.875rem] font-medium">Status</label>
+          <select className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]">
+            <option value="Active">Active</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UserProfileForm;
