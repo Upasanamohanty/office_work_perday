@@ -1,0 +1,209 @@
+'use client';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+
+const UserProfileForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [image, setImage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const simulateApiCall = (formData) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ success: true, message: "Data saved successfully." });
+      }, 1500);
+    });
+  };
+
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    setSuccessMessage("");
+
+    const formData = { ...data, image };
+    console.log("Submitting:", formData);
+
+    try {
+      const response = await simulateApiCall(formData);
+      if (response.success) {
+        setSuccessMessage(response.message);
+        reset();
+        setImage(null);
+      }
+    } catch (error) {
+      console.error("API call failed:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full max-w-[70.5rem] h-auto md:h-[38.5rem] mx-auto bg-white shadow-md rounded-[0.75rem] p-[1.5rem] gap-[0.875rem] relative"
+    >
+      <div className="flex justify-between items-center mb-[1rem]">
+        <h1 className="text-[2rem] font-bold text-black">Add Seller</h1>
+        <div className="flex gap-2">
+          <button
+            type="reset"
+            onClick={() => {
+              reset();
+              setImage(null);
+              setSuccessMessage("");
+            }}
+            className="w-[9.0625rem] h-[2.5rem] bg-gray-300 text-black font-semibold rounded-[0.3125rem]"
+          >
+            Reset
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-[9.0625rem] h-[2.5rem] bg-purple-500 text-white font-semibold rounded-[0.3125rem] disabled:opacity-50"
+          >
+            {isSubmitting ? "Saving..." : "Save"}
+          </button>
+        </div>
+      </div>
+
+      {successMessage && (
+        <p className="text-green-600 font-medium mb-4">{successMessage}</p>
+      )}
+
+      <h2 className="text-[1.25rem] font-semibold mb-[0.5rem]">General Information</h2>
+
+      <div className="flex flex-col items-center mb-[1.5rem]">
+        <div className="relative">
+          <div className="w-[6rem] h-[6rem] bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+            {image ? (
+              <img
+                src={image}
+                alt="Uploaded profile preview"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-gray-400 text-[2rem]">👤</span>
+            )}
+          </div>
+          <label className="absolute bottom-0 right-0 bg-purple-500 p-[0.5rem] rounded-full cursor-pointer">
+            📷
+            <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+          </label>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
+        <div>
+          <label htmlFor="fullName" className="block text-[0.875rem] font-medium">
+            Full Name
+          </label>
+          <input
+            id="fullName"
+            {...register("fullName", { required: "Full name is required" })}
+            type="text"
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+          />
+          {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="storeName" className="block text-[0.875rem] font-medium">
+            Store Name
+          </label>
+          <input
+            id="storeName"
+            {...register("storeName", { required: "Store name is required" })}
+            type="text"
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+          />
+          {errors.storeName && <p className="text-red-500 text-sm">{errors.storeName.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="email" className="block text-[0.875rem] font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: "Invalid email address",
+              },
+            })}
+            type="email"
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+          />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="mobile" className="block text-[0.875rem] font-medium">
+            Mobile
+          </label>
+          <input
+            id="mobile"
+            {...register("mobile", {
+              required: "Mobile number is required",
+              pattern: {
+                value: /^[0-9]{10,15}$/,
+                message: "Enter a valid phone number",
+              },
+            })}
+            type="text"
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+          />
+          {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile.message}</p>}
+        </div>
+
+        <div className="md:col-span-2">
+          <label htmlFor="address" className="block text-[0.875rem] font-medium">
+            Address
+          </label>
+          <textarea
+            id="address"
+            {...register("address", { required: "Address is required" })}
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+            rows={2}
+          ></textarea>
+          {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
+        </div>
+
+        <div className="md:col-span-2">
+          <label htmlFor="status" className="block text-[0.875rem] font-medium">
+            Status
+          </label>
+          <select
+            id="status"
+            {...register("status", { required: "Status is required" })}
+            className="w-full border rounded-md p-[0.5rem] mt-[0.25rem]"
+          >
+            <option value="">Select status</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+          {errors.status && <p className="text-red-500 text-sm">{errors.status.message}</p>}
+        </div>
+      </div>
+    </form>
+  );
+};
+
+export default UserProfileForm;
