@@ -1,0 +1,174 @@
+"use client";
+
+import React from "react";
+import { Download, Mail, Phone, MapPin, Check, X, RotateCcw } from "lucide-react";
+
+interface RequestHeaderProps {
+  requestId: string;
+  status: string;
+  onStatusChange?: (newStatus: string) => void;
+}
+
+const RequestHeader: React.FC<RequestHeaderProps> = ({
+  requestId,
+  status,
+  onStatusChange,
+}) => {
+  return (
+    <>
+      {/* Header Section */}
+      <div className="absolute top-[8rem] left-[16.5rem] w-full max-w-[70.5rem] h-[3.875rem] flex items-center justify-between px-[1rem] py-[0.5rem] bg-white shadow rounded-[2vw]">
+        {/* Left Section: Title & Breadcrumb */}
+        <div className="flex flex-col">
+          <div className="text-xl font-bold text-gray-900">
+            Request ID : <span className="text-black">#{requestId}</span>
+          </div>
+          <div className="text-sm text-gray-500">
+            <span className="text-purple-500 font-medium">Dashboard</span>
+            <span className="mx-2">›</span>
+            Request ID : #{requestId}
+          </div>
+        </div>
+
+        {/* Right Section: Status + Download */}
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center px-[1rem] py-[0.5rem] bg-gray-100 rounded">
+            <span className="text-sm text-gray-500">Status :</span>
+            <select
+              aria-label="Request status"
+              className="ml-2 text-sm text-orange-500 bg-transparent focus:outline-none"
+              value={status}
+              onChange={(e) => onStatusChange?.(e.target.value)}
+            >
+              <option>Pending</option>
+              <option>Approved</option>
+              <option>Rejected</option>
+            </select>
+          </div>
+
+          <button
+            aria-label="Download invoice"
+            className="flex items-center px-[1rem] py-[0.5rem] text-sm font-medium text-gray-700 bg-white border rounded shadow-sm hover:bg-gray-50"
+          >
+            <Download className="w-4 h-4 mr-2 text-purple-500" />
+            Download Invoice
+          </button>
+        </div>
+      </div>
+
+      {/* Details Card Section */}
+      <div className="absolute top-[12.875rem] left-[16.2rem] w-[72.3rem] h-[18.9375rem] bg-white rounded-[0.625rem] shadow p-[1.5rem] flex justify-between">
+        {/* Left Side - Info */}
+        <div className="space-y-4">
+          <div>
+            <span className="text-gray-600">Request Date:</span>{" "}
+            <span className="font-semibold text-black">March 10, 2025</span>
+          </div>
+
+          <div>
+            <span className="text-gray-600">Customer Name:</span>{" "}
+            <span className="font-bold text-black">John Doe</span>
+          </div>
+
+          <div className="flex items-center text-gray-700">
+            <Mail className="w-4 h-4 mr-2" />
+            johndoe@gmail.com
+          </div>
+
+          <div className="flex items-center text-gray-700">
+            <Phone className="w-4 h-4 mr-2" />
+            +61 2020 30300
+          </div>
+
+          <div className="flex items-start text-gray-700">
+            <MapPin className="w-4 h-4 mr-2 mt-1" />
+            <p>
+              Flat No. 12B, Sunshine Apartments,<br />
+              123 Maple Street, Near City Park, Springfield, IL,<br />
+              62704, United States
+            </p>
+          </div>
+        </div>
+
+        {/* Right Side - Refund */}
+        <div className="text-right space-y-2">
+          <div className="text-lg font-semibold text-purple-600">$150.00</div>
+          <div className="text-sm text-gray-500">Refund Amount</div>
+          <div className="flex justify-end space-x-2 pt-2">
+            <button className="flex items-center space-x-1 px-3 py-1 rounded-md bg-green-100 text-green-600">
+              <Check className="w-4 h-4" />
+              <span>Approve</span>
+            </button>
+            <button className="flex items-center space-x-1 px-3 py-1 rounded-md bg-red-100 text-red-500">
+              <X className="w-4 h-4" />
+              <span>Reject</span>
+            </button>
+          </div>
+          <div className="flex justify-end pt-2">
+            <button className="flex items-center text-purple-600 space-x-2">
+              <RotateCcw className="w-4 h-4" />
+              <span>Process Refund</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Product Details Heading */}
+      <div className="absolute top-[32rem] left-[16.5rem] font-bold text-lg">
+        Product Details
+      </div>
+
+      {/* Product Table */}
+      <div className="absolute top-[36rem] left-[16.2rem] w-[72.3rem] h-[13.125rem] bg-white rounded-t-[0.75rem] p-6">
+        <table className="w-full text-left border-collapse">
+          <thead className="bg-gray-100 text-sm text-gray-700">
+            <tr>
+              <th className="py-2 px-4">Product Name</th>
+              <th className="py-2 px-4">SKU</th>
+              <th className="py-2 px-4">Quantity</th>
+              <th className="py-2 px-4">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody className="text-sm text-gray-800">
+            <tr>
+              <td className="py-2 px-4">Wireless Earbuds</td>
+              <td className="py-2 px-4">SKU-12345</td>
+              <td className="py-2 px-4">2</td>
+              <td className="py-2 px-4">$10.00</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr className="bg-purple-50 text-sm">
+              <td colSpan={3} className="text-right font-medium py-2 px-4">
+                Total
+              </td>
+              <td className="py-2 px-4 font-semibold">$18.00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      {/* Bottom Divider Section */}
+      <div className="absolute top-[49.125rem] left-[16.2rem] w-[72.3rem] h-[8.3125rem] border-t pt-6 bg-white">
+        <div className="text-sm text-gray-800">
+          <p><span className="font-semibold">Return Reason:</span> Defective Item</p>
+          <p className="mt-2"><span className="font-semibold">Customer Notes:</span> The left earbud is not working. I want a replacement or refund.</p>
+        </div>
+      </div>
+
+      {/* Uploaded Images Heading */}
+      <div className="absolute top-[58rem] left-[16.5rem] font-bold text-lg">
+        Uploaded Images
+      </div>
+
+      {/* Uploaded Images Section */}
+      <div className="absolute top-[62rem] left-[16.2rem] flex space-x-4">
+        <img src="/path/to/image1.jpg" alt="Uploaded Image 1" className="w-[98px] h-[98px] rounded-[14px]" />
+        <img src="/path/to/image2.jpg" alt="Uploaded Image 2" className="w-[98px] h-[98px] rounded-[14px]" />
+        <img src="/path/to/image3.jpg" alt="Uploaded Image 3" className="w-[98px] h-[98px] rounded-[14px]" />
+      </div>
+    </>
+  );
+};
+
+export default RequestHeader;
