@@ -1,0 +1,89 @@
+import React, { useState, ChangeEvent } from 'react';
+
+const ImageUploadSection: React.FC = () => {
+  const [images, setImages] = useState<(string | null)[]>([null, null, null]);
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const updatedImages = [...images];
+        updatedImages[index] = reader.result as string;
+        setImages(updatedImages);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div className="relative w-[1157px] h-[210px] top-[576px] left-[259px] bg-gray-100 rounded-t-xl p-6">
+      <h2 className="font-bold mb-5">Uploaded Images</h2>
+      <div className="flex gap-5">
+        {images.map((img, index) => (
+          <div
+            key={index}
+            className="w-[98px] h-[98px] rounded-[14px] border-2 border-dashed border-gray-400 bg-white relative flex items-center justify-center cursor-pointer overflow-hidden"
+          >
+            <input
+              type="file"
+              accept="image/*"
+              className="absolute w-full h-full opacity-0 cursor-pointer"
+              onChange={(e) => handleImageChange(e, index)}
+            />
+            {img ? (
+              <img src={img} alt={`uploaded-${index}`} className="absolute w-full h-full object-cover rounded-[14px]" />
+            ) : (
+              <span className="text-xs text-gray-500 text-center z-10">Click to<br />Upload</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const RefundSection: React.FC = () => {
+  return (
+    <div className="absolute w-[1157px] h-[173px] top-[802px] left-[259px] bg-white rounded-xl p-6 flex justify-between items-start gap-6 shadow-sm">
+      <div className="flex flex-col gap-2 w-full">
+        <h2 className="font-bold mb-4">Refund & Return Details</h2>
+        <div className="flex items-center gap-2">
+          <img
+            src="https://img.icons8.com/color/48/000000/bank-card-back-side.png"
+            alt="card icon"
+            className="w-6 h-6"
+          />
+          <strong>Credit Card</strong>
+        </div>
+        <div>
+          Return Tracking Number: <strong>#TS45203156</strong>
+        </div>
+      </div>
+      <div className="bg-gray-100 p-4 rounded-md">
+        <div className="flex items-center gap-2">
+          <img
+            src="https://img.icons8.com/ios-filled/50/8e44ad/shop.png"
+            alt="store icon"
+            className="w-6 h-6"
+          />
+          <div>
+            <div>Seller Name</div>
+            <strong>UrbanNest</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Page: React.FC = () => {
+  return (
+    <div>
+      <ImageUploadSection />
+      <RefundSection />
+    </div>
+  );
+};
+
+export default Page;
