@@ -1,0 +1,53 @@
+// pages/index.tsx
+
+import React, { useState } from 'react';
+
+export default function Home() {
+  const [vendor, setVendor] = useState('');
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setVendor(e.target.value);
+  };
+
+  return (
+    <div className="min-h-screen bg-white p-[4rem] relative">
+      <h1 className="font-bold text-xl mb-[1.5rem] ml-[4rem]">Assign Vendor</h1>
+
+      <div
+        className="flex flex-col gap-[0.25rem] absolute"
+        style={{ width: '28.75rem', height: '4rem', top: '8.25rem', left: '4rem' }}
+      >
+        <label htmlFor="vendor-select" className="text-sm font-medium">
+          Select Vendor
+        </label>
+        <select
+          id="vendor-select"
+          value={vendor}
+          onChange={handleSelect}
+          className="h-[2.5rem] px-[0.75rem] text-base border border-gray-300 rounded-md bg-white focus:outline-none"
+        >
+          <option value="">Select</option>
+          <option value="vendor1">Vendor 1</option>
+          <option value="vendor2">Vendor 2</option>
+          <option value="vendor3">Vendor 3</option>
+        </select>
+      </div>
+
+      <div
+        className="flex gap-[1rem] absolute"
+        style={{ top: '13.8125rem', left: '8.25rem' }}
+      >
+        <button
+          className="w-[9.0625rem] h-[2.5rem] rounded-md font-bold bg-purple-100 text-purple-700"
+        >
+          Cancel
+        </button>
+        <button
+          className="w-[9.0625rem] h-[2.5rem] rounded-md font-bold bg-purple-600 text-white"
+        >
+          Assign Now
+        </button>
+      </div>
+    </div>
+  );
+}
